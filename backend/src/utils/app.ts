@@ -9,11 +9,11 @@ import contentRoutes from '../routes/content.routes';
 const app: Application = express();
 
 app.use(cors({
-  origin: 'https://brainly-rho.vercel.app/',
+  origin: ['http://localhost:5173', 'https://brainly-rho.vercel.app'],
   credentials: true,
 }));
 app.use(express.json());
-app.use(cookieParser());  
+app.use(cookieParser());
 
 app.get("/", (req: Request, res: Response) => {
   return res.send('Hello, World!');
@@ -28,7 +28,7 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   if (err instanceof ApiError) {
 
     let formattedErrors: { field: string; message: string }[] = [];
-    
+
     if (err.errors?.issues) {
       formattedErrors = err.errors.issues.map((issue: any) => ({
         field: issue.path.join('.'),
@@ -37,7 +37,7 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
     } else if (Array.isArray(err.errors)) {
       formattedErrors = err.errors;
     }
-    
+
     return res.status(err.statusCode).json({
       success: err.success,
       message: err.message,
