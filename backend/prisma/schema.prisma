@@ -1,0 +1,39 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id             String         @id @default(uuid())
+  email          String         @unique
+  password       String
+  shared         Boolean        @default(false)
+  refreshToken   String?
+  contents       Content[]
+  sharedContents SharedContent?
+}
+
+model Content {
+  id        String   @id @default(uuid())
+  link      String
+  type      String
+  tags      String[]
+  createdAt DateTime @default(now())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+model SharedContent {
+  id     String @id @default(uuid())
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id])
+}
+
+// enum LinkType {
+//   YOUTUBE
+//   TWITTER
+// }
