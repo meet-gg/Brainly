@@ -1,10 +1,10 @@
 import express, { Application } from 'express';
 import type { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
-import { ApiError } from './utils/ApiError';
+import { ApiError } from './ApiError';
 import cookieParser from "cookie-parser";
-import userRoutes from './routes/user.routes';
-import contentRoutes from './routes/content.routes';
+import userRoutes from '../routes/user.routes';
+import contentRoutes from '../routes/content.routes';
 
 const app: Application = express();
 

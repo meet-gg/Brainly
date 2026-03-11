@@ -1,4 +1,4 @@
-import { app } from "./app";
+import { app } from "./utils/app";
 import { dbConnect } from "./utils/db";
 
 const PORT = process.env.PORT || 3000;
