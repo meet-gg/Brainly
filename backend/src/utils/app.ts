@@ -9,7 +9,7 @@ import contentRoutes from '../routes/content.routes';
 const app: Application = express();
 
 app.use(cors({
-  origin: 'http://localhost:5173',
+  origin: '*',
   credentials: true,
 }));
 app.use(express.json());
