@@ -1,7 +1,7 @@
 import axios from 'axios';
-import 'dotenv/config';
+// import 'dotenv/config';
 
-const API_BASE_URL = process.env.API_BASE_URL;
+const API_BASE_URL = 'https://brainly-fmmd.onrender.com/api/v1';
 
 const api = axios.create({
   baseURL: API_BASE_URL,
