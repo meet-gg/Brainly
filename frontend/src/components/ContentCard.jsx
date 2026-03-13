@@ -1,5 +1,6 @@
-import { Twitter, Youtube, FileText, Trash2, Instagram, Linkedin, Github, Link, Music, PenTool, Globe } from 'lucide-react';
+import { Twitter, Youtube, FileText, Trash2, Instagram, Linkedin, Github, Link, Music, PenTool, Globe, ExternalLink } from 'lucide-react';
 import { getLinkTypeName } from '../utils/linkDetector';
+import { getEmbedPreview } from '../utils/embedLink';
 
 const ContentCard = ({ content, onDelete }) => {
   const getIcon = () => {
@@ -23,12 +24,7 @@ const ContentCard = ({ content, onDelete }) => {
     return icons[content.type] || <Link className="w-5 h-5 text-gray-500 dark:text-gray-400" />;
   };
 
-  const getYoutubeId = (url) => {
-    const match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|v\/))([^&?\s]{11})/);
-    return match ? match[1] : null;
-  };
-
-  const videoId = content.type === 'YOUTUBE' ? getYoutubeId(content.link) : null;
+  const preview = getEmbedPreview(content.link, content.type);
 
   return (
     <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 p-5 shadow-sm hover:shadow-md dark:shadow-gray-900/30 transition">
@@ -49,23 +45,41 @@ const ContentCard = ({ content, onDelete }) => {
         )}
       </div>
 
-      {content.type === 'YOUTUBE' && videoId ? (
-        <div className="mb-4 rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-700">
+      {preview.mode === 'embed' ? (
+        <div className="mb-4 rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-700 border border-gray-100 dark:border-gray-700">
           <iframe
-            src={`https://www.youtube.com/embed/${videoId}`}
-            className="w-full aspect-video"
+            src={preview.src}
+            title={preview.title}
+            className={`w-full ${preview.aspectClassName}`}
+            allow={preview.allow}
             allowFullScreen
+            loading="lazy"
           />
         </div>
       ) : (
-        <div className="mb-4 p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
+        <div className="mb-4 rounded-xl border border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-700/40 p-4">
+          <div className="flex items-start justify-between gap-3 mb-3">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-400 dark:text-gray-500">
+                {preview.hostname}
+              </p>
+              <p className="mt-2 text-sm text-gray-700 dark:text-gray-200 break-all">
+                {preview.previewText}
+              </p>
+            </div>
+            <div className="w-10 h-10 rounded-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 flex items-center justify-center flex-shrink-0">
+              {getIcon()}
+            </div>
+          </div>
+
           <a
             href={content.link}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-blue-500 dark:text-blue-400 hover:underline text-sm break-all"
+            className="inline-flex items-center gap-2 text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 transition"
           >
-            {content.link}
+            Open source
+            <ExternalLink className="w-4 h-4" />
           </a>
         </div>
       )}

@@ -1,7 +1,7 @@
 import axios from 'axios';
 // import 'dotenv/config';
 
-const API_BASE_URL = 'https://brainly-fmmd.onrender.com/api/v1';
+const API_BASE_URL = 'http://localhost:3000/api/v1';
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -59,6 +59,7 @@ export const contentAPI = {
 };
 
 export const shareAPI = {
+  getStatus: () => api.get('/share/status'),
   toggle: () => api.post('/share/toggle'),
   getSharedContent: (shareId) => api.get(`/share/${shareId}`),
 };

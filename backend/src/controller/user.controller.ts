@@ -150,6 +150,30 @@ export const toggleShare = asyncHandler(async (req: Request, res: Response) => {
     return res.status(200).json(new ApiResponse(200, { shared: false, shareLink: null }));
 });
 
+export const getShareStatus = asyncHandler(async (req: Request, res: Response) => {
+    // @ts-ignore
+    const userId = req.user?.id;
+    if (!userId) {
+        throw new ApiError(401, "UNAUTHORIZED");
+    }
+
+    const user = await prisma.user.findUnique({
+        where: { id: userId },
+        include: { sharedContents: true }
+    });
+
+    if (!user) {
+        throw new ApiError(404, "USER_NOT_FOUND");
+    }
+
+    return res.status(200).json(new ApiResponse(200, {
+        shared: user.shared,
+        shareLink: user.shared && user.sharedContents
+            ? `/api/v1/share/${user.sharedContents.id}`
+            : null
+    }));
+});
+
 export const getSharedContent = asyncHandler(async (req: Request<{ shareId: string }>, res: Response) => {
     const { shareId } = req.params;
 
