@@ -50,7 +50,7 @@ const SharedBrain = () => {
       <header className="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700 py-4 px-8">
         <div className="flex items-center gap-3">
           <Brain className="w-8 h-8 text-indigo-600" />
-          <span className="text-xl font-bold text-gray-900 dark:text-white">Second Brain</span>
+          <span className="text-xl font-bold text-gray-900 dark:text-white">Brainly</span>
         </div>
       </header>
 

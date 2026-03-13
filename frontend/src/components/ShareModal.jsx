@@ -81,10 +81,10 @@ const ShareModal = ({ isOpen, onClose, contentCount }) => {
         </button>
 
         <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-          Share Your Second Brain
+          Share Your Brainly
         </h2>
         <p className="text-gray-600 dark:text-gray-400 mb-6">
-          Share your entire collection of notes, documents, tweets, and videos with others. They'll be able to import your content into their own Second Brain.
+          Share your entire collection of notes, documents, tweets, and videos with others. They'll be able to import your content into their own Brainly.
         </p>
 
         {statusLoading ? (
